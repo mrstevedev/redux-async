@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+// Import action
+import { increment, decrement, getData } from "./actions";
 
 function App() {
+  // Get counter state from store
+  const content = useSelector((state) => state);
+  const counter = useSelector((state) => state.counter);
+  const isLogged = useSelector((state) => state.isLogged);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getData());
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>Counter {counter}</h2>
+      <button onClick={() => dispatch(increment(5))}>+</button>
+      <button onClick={() => dispatch(decrement())}>-</button>
+      {/* <button onClick={ () => dispatch(getData()) }>Get users</button> */}
+
+      { content.fetch.data.name }
+
+      {isLogged ? <h4>Value information I shouldn't see</h4> : ""}
     </div>
   );
 }
